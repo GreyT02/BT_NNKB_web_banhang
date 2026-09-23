@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mỹ phẩm - Nature Products</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+      color: #333;
+    }
+
+    .page {
+      width: min(1000px, calc(100% - 24px));
+      margin: 10px auto 0;
+    }
+
+    .shop {
+      border-top: 4px solid #ef8c9c;
+      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      display: grid;
+      grid-template-columns: 200px 1fr 280px;
+      min-height: 495px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      border-right: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .sidebar-title {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 0 24px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .heart {
+      width: 38px;
+      height: 38px;
+      background: #ef8c9c;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+    }
+
+    .category {
+      height: 35px;
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+      border-top: 1px solid #eee;
+      font-size: 12px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .category:hover,
+    .category.active {
+      background: #ef8c9c;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    /* Product area */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+    }
+
+    .product {
+      position: relative;
+      min-width: 0;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      padding: 18px 16px 10px;
+      background: #fff;
+    }
+
+    .product:nth-child(n+4) { border-bottom: 0; }
+
+    .discount {
+      position: absolute;
+      top: 15px;
+      left: 16px;
+      background: #f5323b;
+      color: #fff;
+      padding: 4px 8px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .discount.hot { background: #f5323b; }
+
+    .product-img {
+      width: 100%;
+      height: 135px;
+      object-fit: contain;
+      margin-top: 4px;
+    }
+
+    .product-name {
+      font-size: 12px;
+      margin: 4px 0 7px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .price {
+      font-size: 12px;
+      font-weight: bold;
+      color: #6e8fca;
+    }
+
+    .old-price {
+      color: #aaa;
+      text-decoration: line-through;
+      font-weight: normal;
+      margin-left: 6px;
+      font-size: 11px;
+    }
+
+    /* Banner */
+    .banner {
+      overflow: hidden;
+      background: #eee;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Logos */
+    .brands {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      align-items: center;
+      gap: 12px;
+      min-height: 145px;
+      padding: 20px 8px;
+    }
+
+    .brand {
+      height: 100px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .brand img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: grayscale(1);
+      opacity: .75;
+    }
+
+    /* Mobile */
+    @media (max-width: 800px) {
+      .shop {
+        grid-template-columns: 170px 1fr;
+      }
+
+      .banner {
+        display: none;
+      }
+
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .product:nth-child(n) {
+        border-bottom: 1px solid #ddd;
+      }
+
+      .product:nth-child(even) {
+        border-right: 0;
+      }
+
+      .brands {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: 100%; margin-top: 0; }
+
+      .shop {
+        display: block;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .sidebar-title { height: 55px; }
+
+      .category {
+        display: inline-flex;
+        width: 50%;
+        border-right: 1px solid #eee;
+      }
+
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .product-img { height: 125px; }
+
+      .brands {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="shop">
+
+      <aside class="sidebar">
+        <div class="sidebar-title">
+          <span class="heart">♥</span>
+          <span>MỸ PHẨM</span>
+        </div>
+
+        <div class="category active" data-filter="all">Tất cả</div>
+        <div class="category" data-filter="kem">Kem dưỡng ẩm</div>
+        <div class="category" data-filter="son">Son môi</div>
+        <div class="category" data-filter="mong">Son móng tay</div>
+        <div class="category" data-filter="trangdiem">Trang điểm</div>
+        <div class="category" data-filter="toc">Dưỡng tóc</div>
+      </aside>
+
+      <section class="products">
+
+        <article class="product" data-category="son">
+          <span class="discount">-17%</span>
+          <img class="product-img" src="assets/product1.jpg" alt="Son môi Itachi">
+          <div class="product-name">Son môi itachi</div>
+          <div class="price">500.000₫ <span class="old-price">600.000₫</span></div>
+        </article>
+
+        <article class="product" data-category="son">
+          <span class="discount">-50%</span>
+          <img class="product-img" src="assets/product2.jpg" alt="Mascara dày và cong">
+          <div class="product-name">Mascara dày và cong</div>
+          <div class="price">50.000₫ <span class="old-price">100.000₫</span></div>
+        </article>
+
+        <article class="product" data-category="son">
+          <span class="discount">-50%</span>
+          <img class="product-img" src="assets/product3.jpg" alt="Son môi TPA-115">
+          <div class="product-name">Son môi TPA-115</div>
+          <div class="price">125.000₫ <span class="old-price">250.000₫</span></div>
+        </article>
+
+        <article class="product" data-category="son">
+          <span class="discount">-50%</span>
+          <img class="product-img" src="assets/product4.jpg" alt="Son bóng hồng">
+          <div class="product-name">Son bóng hồng</div>
+          <div class="price">100.000₫ <span class="old-price">200.000₫</span></div>
+        </article>
+
+        <article class="product" data-category="kem">
+          <span class="discount hot">HOT</span>
+          <img class="product-img" src="assets/product5.jpg" alt="Nước làm trắng da SG">
+          <div class="product-name">Nước làm trắng da SG</div>
+          <div class="price">200.000₫</div>
+        </article>
+
+        <article class="product" data-category="trangdiem">
+          <span class="discount">-11%</span>
+          <img class="product-img" src="assets/product6.jpg" alt="Phấn trang điểm AUG">
+          <div class="product-name">Phấn trang điểm AUG</div>
+          <div class="price">400.000₫ <span class="old-price">450.000₫</span></div>
+        </article>
+
+      </section>
+
+      <div class="banner">
+        <img src="assets/banner.jpg" alt="Cosmetics Nature Products">
+      </div>
+    </section>
+
+    <section class="brands">
+      <div class="brand"><img src="assets/logo1.jpg" alt="Dunby"></div>
+      <div class="brand"><img src="assets/logo2.jpg" alt="Matt"></div>
+      <div class="brand"><img src="assets/logo3.jpg" alt="Burberry"></div>
+      <div class="brand"><img src="assets/logo4.jpg" alt="Handcrafted"></div>
+      <div class="brand"><img src="assets/logo5.jpg" alt="Zolife"></div>
+      <div class="brand"><img src="assets/logo6.jpg" alt="Adventure"></div>
+    </section>
+  </main>
+
+  <script>
+    const categories = document.querySelectorAll('.category');
+    const products = document.querySelectorAll('.product');
+
+    categories.forEach(category => {
+      category.addEventListener('click', () => {
+        categories.forEach(c => c.classList.remove('active'));
+        category.classList.add('active');
+
+        const filter = category.dataset.filter;
+
+        products.forEach(product => {
+          product.style.display =
+            filter === 'all' || product.dataset.category === filter
+              ? ''
+              : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
